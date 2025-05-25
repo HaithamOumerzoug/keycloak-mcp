@@ -1,5 +1,6 @@
 import KcAdminClient from "@keycloak/keycloak-admin-client";
 import ClientRepresentation from "@keycloak/keycloak-admin-client/lib/defs/clientRepresentation.js";
+import GroupRepresentation from "@keycloak/keycloak-admin-client/lib/defs/groupRepresentation.js";
 import RealmRepresentation from "@keycloak/keycloak-admin-client/lib/defs/realmRepresentation.js";
 import RoleRepresentation from "@keycloak/keycloak-admin-client/lib/defs/roleRepresentation.js";
 import UserRepresentation from "@keycloak/keycloak-admin-client/lib/defs/userRepresentation.js";
@@ -48,7 +49,7 @@ const ListUsersSchema = z.object({
 const AssignClientRoleSchema = z.object({
   realm: z.string(),
   userId: z.string(),
-  clientId: z.string(),
+  clientUniqueId: z.string(),
   roleName: z.string(),
 });
 
@@ -60,6 +61,15 @@ const AddUserToGroupSchema = z.object({
 
 const ListClientsSchema = z.object({
   realm: z.string(),
+});
+
+const ListGroupsSchema = z.object({
+  realm: z.string(),
+});
+
+const ListClientRolesSchema = z.object({
+  realm: z.string(),
+  clientUniqueId: z.string(),
 });
 
 async function authenticate() {
@@ -109,10 +119,10 @@ const inputSchema = {
     properties: {
       realm: { type: "string" },
       userId: { type: "string" },
-      clientId: { type: "string" },
+      clientUniqueId: { type: "string" },
       roleName: { type: "string" },
     },
-    required: ["realm", "userId", "clientId", "roleName"],
+    required: ["realm", "userId", "clientUniqueId", "roleName"],
   },
   "add-user-to-group": {
     type: "object",
@@ -128,6 +138,22 @@ const inputSchema = {
     properties: {
       realm: { type: "string" },
     },
+    required: ["realm"],
+  },
+  "list-groups": {
+    type: "object",
+    properties: {
+      realm: { type: "string" },
+    },
+    required: ["realm"],
+  },
+  "list-client-roles": {
+    type: "object",
+    properties: {
+      realm: z.string(),
+      clientUniqueId: z.string(),
+    },
+    required: ["realm", "clientUniqueId"],
   },
 };
 
@@ -168,6 +194,16 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         name: "list-clients",
         description: "List clients in a specific realm",
         inputSchema: inputSchema["list-clients"],
+      },
+      {
+        name: "list-groups",
+        description: "List groups in a specific realm",
+        inputSchema: inputSchema["list-groups"],
+      },
+      {
+        name: "list-client-roles",
+        description: "List roles in a specific client",
+        inputSchema: inputSchema["list-client-roles"],
       },
     ],
   };
@@ -242,7 +278,9 @@ server.setRequestHandler(
           const { realm } = ListUsersSchema.parse(args);
           kcAdminClient.setConfig({ realmName: realm });
 
-          const users: UserRepresentation[] = await kcAdminClient.users.find();
+          const users: UserRepresentation[] = await kcAdminClient.users.find({
+            realm,
+          });
           return {
             content: [
               {
@@ -256,12 +294,15 @@ server.setRequestHandler(
         }
 
         case "assign-client-role-to-user": {
-          const { realm, userId, clientId, roleName } =
+          const { realm, userId, clientUniqueId, roleName } =
             AssignClientRoleSchema.parse(args);
           kcAdminClient.setConfig({ realmName: realm });
 
           const roles: RoleRepresentation[] =
-            await kcAdminClient.clients.listRoles({ id: clientId });
+            await kcAdminClient.clients.listRoles({
+              id: clientUniqueId,
+              realm,
+            });
           const role: RoleRepresentation | undefined = roles.find(
             (r) => r.name === roleName
           );
@@ -281,7 +322,7 @@ server.setRequestHandler(
           await kcAdminClient.users.addClientRoleMappings({
             realm,
             id: userId,
-            clientUniqueId: clientId,
+            clientUniqueId,
             roles: [
               {
                 id: role.id as string, // safely asserted since we check below
@@ -294,7 +335,7 @@ server.setRequestHandler(
             content: [
               {
                 type: "text",
-                text: `Assigned role '${roleName}' to user ${userId} in client ${clientId}`,
+                text: `Assigned role '${roleName}' to user ${userId} in client ${clientUniqueId}`,
               },
             ],
           };
@@ -332,6 +373,45 @@ server.setRequestHandler(
                 type: "text",
                 text: `Clients in realm ${realm}:\n${clients
                   .map((c) => `- ${c.clientId} (${c.id})`)
+                  .join("\n")}`,
+              },
+            ],
+          };
+        }
+
+        case "list-groups": {
+          const { realm } = ListGroupsSchema.parse(args);
+          kcAdminClient.setConfig({ realmName: realm });
+
+          const groups: GroupRepresentation[] =
+            await kcAdminClient.groups.find();
+          return {
+            content: [
+              {
+                type: "text",
+                text: `Groups in realm ${realm}:\n${groups
+                  .map((g) => `- ${g.name}`)
+                  .join("\n")}`,
+              },
+            ],
+          };
+        }
+
+        case "list-client-roles": {
+          const { realm, clientUniqueId } = ListClientRolesSchema.parse(args);
+          kcAdminClient.setConfig({ realmName: realm });
+
+          const roles: RoleRepresentation[] =
+            await kcAdminClient.clients.listRoles({
+              id: clientUniqueId,
+              realm,
+            });
+          return {
+            content: [
+              {
+                type: "text",
+                text: `Roles in client ${clientUniqueId} in realm ${realm}:\n${roles
+                  .map((r) => `- ${r.name}`)
                   .join("\n")}`,
               },
             ],
