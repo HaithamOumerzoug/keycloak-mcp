@@ -1,0 +1,32 @@
+# Smithery configuration file: https://smithery.ai/docs/build/project-config
+
+startCommand:
+  type: stdio
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({ command: 'node', args: ['dist/index.js'], env: { KEYCLOAK_URL: config.keycloakUrl, KEYCLOAK_ADMIN: config.keycloakAdmin, KEYCLOAK_ADMIN_PASSWORD: config.keycloakAdminPassword } })
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - keycloakUrl
+      - keycloakAdmin
+      - keycloakAdminPassword
+    properties:
+      keycloakUrl:
+        type: string
+        default: http://localhost:8080
+        description: URL of the Keycloak server
+      keycloakAdmin:
+        type: string
+        default: admin
+        description: Admin username for Keycloak
+      keycloakAdminPassword:
+        type: string
+        default: admin
+        description: Admin password for Keycloak
+  exampleConfig:
+    keycloakUrl: http://localhost:8080
+    keycloakAdmin: admin
+    keycloakAdminPassword: admin
