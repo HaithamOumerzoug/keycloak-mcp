@@ -18,7 +18,8 @@
     "mcp",
     "model-context-protocol",
     "keycloak-admin-client",
-    "keycloak-mcp"
+    "keycloak-mcp",
+    "ai-agent"
   ],
   "license": "MIT",
   "author": "OUMERZOUG Haitham",
