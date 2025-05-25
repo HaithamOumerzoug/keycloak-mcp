@@ -36,13 +36,32 @@ Lists all users in a specified realm.
 **Inputs**:
 - `realm`: The realm name
 
+### list-clients
+Lists all clients in a specified realm.
+
+**Inputs**:
+- `realm`: The realm name
+
+### list-groups
+Lists all groups in a specified realm.
+
+**Inputs**:
+- `realm`: The realm name
+
+### list-client-roles
+Lists all roles for a specific client in a realm.
+
+**Inputs**:
+- `realm`: The realm name
+- `clientUniqueId`: The unique ID of the client
+
 ### assign-client-role-to-user
 Assigns a client role to a specific user.
 
 **Inputs**:
 - `realm`: The realm name
 - `userId`: The ID of the user
-- `clientId`: The ID of the client
+- `clientUniqueId`: The unique ID of the client
 - `roleName`: The name of the role to assign
 
 ### add-user-to-group
@@ -70,6 +89,10 @@ npx -y @smithery/cli install @HaithamOumerzoug/keycloak-mcp --client claude
 ```
 
 The server is available as an NPM package:
+
+### Installing via NPM
+
+The server is available as an NPM package (Will be available within 24h):
 ```bash
 # Direct usage with npx
 npx -y keycloak-mcp
@@ -80,7 +103,7 @@ npm install -g keycloak-mcp
 
 ## Configuration
 
-### Using NPM Package (Recommended)
+### Using NPM Package (Will be available within 24h)
 Configure the server in your Cursor IDE, Cline or Claude Desktop MCP configuration file:
 
 ```json

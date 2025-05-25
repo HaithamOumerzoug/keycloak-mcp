@@ -222,7 +222,6 @@ server.setRequestHandler(
         case "create-user": {
           const { realm, username, email, firstName, lastName } =
             CreateUserSchema.parse(args);
-          kcAdminClient.setConfig({ realmName: realm });
 
           const user: UserRepresentation = await kcAdminClient.users.create({
             realm,
@@ -245,7 +244,6 @@ server.setRequestHandler(
 
         case "delete-user": {
           const { realm, userId } = DeleteUserSchema.parse(args);
-          kcAdminClient.setConfig({ realmName: realm });
 
           await kcAdminClient.users.del({ id: userId, realm });
 
@@ -267,7 +265,7 @@ server.setRequestHandler(
               {
                 type: "text",
                 text: `Available realms:\n${realms
-                  .map((r) => `- ${r.realm}`)
+                  .map((r) => `- ${r.realm} (${r.id})`)
                   .join("\n")}`,
               },
             ],
@@ -276,7 +274,6 @@ server.setRequestHandler(
 
         case "list-users": {
           const { realm } = ListUsersSchema.parse(args);
-          kcAdminClient.setConfig({ realmName: realm });
 
           const users: UserRepresentation[] = await kcAdminClient.users.find({
             realm,
@@ -296,7 +293,6 @@ server.setRequestHandler(
         case "assign-client-role-to-user": {
           const { realm, userId, clientUniqueId, roleName } =
             AssignClientRoleSchema.parse(args);
-          kcAdminClient.setConfig({ realmName: realm });
 
           const roles: RoleRepresentation[] =
             await kcAdminClient.clients.listRoles({
@@ -343,7 +339,6 @@ server.setRequestHandler(
 
         case "add-user-to-group": {
           const { realm, userId, groupId } = AddUserToGroupSchema.parse(args);
-          kcAdminClient.setConfig({ realmName: realm });
 
           await kcAdminClient.users.addToGroup({
             realm,
@@ -363,10 +358,9 @@ server.setRequestHandler(
 
         case "list-clients": {
           const { realm } = ListClientsSchema.parse(args);
-          kcAdminClient.setConfig({ realmName: realm });
 
           const clients: ClientRepresentation[] =
-            await kcAdminClient.clients.find();
+            await kcAdminClient.clients.find({ realm });
           return {
             content: [
               {
@@ -381,16 +375,16 @@ server.setRequestHandler(
 
         case "list-groups": {
           const { realm } = ListGroupsSchema.parse(args);
-          kcAdminClient.setConfig({ realmName: realm });
 
-          const groups: GroupRepresentation[] =
-            await kcAdminClient.groups.find();
+          const groups: GroupRepresentation[] = await kcAdminClient.groups.find(
+            { realm }
+          );
           return {
             content: [
               {
                 type: "text",
                 text: `Groups in realm ${realm}:\n${groups
-                  .map((g) => `- ${g.name}`)
+                  .map((g) => `- ${g.name} (${g.id})`)
                   .join("\n")}`,
               },
             ],
@@ -399,7 +393,6 @@ server.setRequestHandler(
 
         case "list-client-roles": {
           const { realm, clientUniqueId } = ListClientRolesSchema.parse(args);
-          kcAdminClient.setConfig({ realmName: realm });
 
           const roles: RoleRepresentation[] =
             await kcAdminClient.clients.listRoles({
