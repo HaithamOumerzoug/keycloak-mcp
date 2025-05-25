@@ -1,5 +1,7 @@
 # Keycloak MCP
 
+[![smithery badge](https://smithery.ai/badge/@HaithamOumerzoug/keycloak-mcp)](https://smithery.ai/server/@HaithamOumerzoug/keycloak-mcp)
+
 A Model Context Protocol (MCP) server implementation for Keycloak, providing a standardized interface for managing Keycloak users and realms.
 
 ## Description
@@ -58,6 +60,14 @@ Adds a user to a specific group.
 - A running Keycloak instance
 
 ## Installation
+
+### Installing via Smithery
+
+To install keycloak-mcp for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@HaithamOumerzoug/keycloak-mcp):
+
+```bash
+npx -y @smithery/cli install @HaithamOumerzoug/keycloak-mcp --client claude
+```
 
 The server is available as an NPM package:
 ```bash
