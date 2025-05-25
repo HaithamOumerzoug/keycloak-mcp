@@ -80,6 +80,18 @@ Adds a user to a specific group.
 
 ## Installation
 
+### Installing via Smithery
+
+To install keycloak-mcp for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@HaithamOumerzoug/keycloak-mcp):
+
+```bash
+npx -y @smithery/cli install @HaithamOumerzoug/keycloak-mcp --client claude
+```
+
+The server is available as an NPM package:
+
+### Installing via NPM
+
 The server is available as an NPM package (Will be available within 24h):
 ```bash
 # Direct usage with npx
