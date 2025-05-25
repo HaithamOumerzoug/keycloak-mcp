@@ -78,7 +78,7 @@ Adds a user to a specific group.
 
 ## Installation
 
-The server is available as an NPM package:
+The server is available as an NPM package (Will be available within 24h):
 ```bash
 # Direct usage with npx
 npx -y keycloak-mcp
@@ -89,7 +89,7 @@ npm install -g keycloak-mcp
 
 ## Configuration
 
-### Using NPM Package (Recommended)
+### Using NPM Package (Will be available within 24h)
 Configure the server in your Cursor IDE, Cline or Claude Desktop MCP configuration file:
 
 ```json
