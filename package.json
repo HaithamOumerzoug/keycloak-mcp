@@ -23,6 +23,11 @@
   "license": "MIT",
   "author": "OUMERZOUG Haitham",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:HaithamOumerzoug/keycloak-mcp.git"
+  },
+  "homepage": "https://github.com/HaithamOumerzoug/keycloak-mcp#readme",
   "dependencies": {
     "@keycloak/keycloak-admin-client": "^26.2.4",
     "@modelcontextprotocol/sdk": "^1.12.0",
