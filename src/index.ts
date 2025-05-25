@@ -1,4 +1,5 @@
 import KcAdminClient from "@keycloak/keycloak-admin-client";
+import ClientRepresentation from "@keycloak/keycloak-admin-client/lib/defs/clientRepresentation.js";
 import RealmRepresentation from "@keycloak/keycloak-admin-client/lib/defs/realmRepresentation.js";
 import RoleRepresentation from "@keycloak/keycloak-admin-client/lib/defs/roleRepresentation.js";
 import UserRepresentation from "@keycloak/keycloak-admin-client/lib/defs/userRepresentation.js";
@@ -55,6 +56,10 @@ const AddUserToGroupSchema = z.object({
   realm: z.string(),
   userId: z.string(),
   groupId: z.string(),
+});
+
+const ListClientsSchema = z.object({
+  realm: z.string(),
 });
 
 async function authenticate() {
@@ -118,6 +123,12 @@ const inputSchema = {
     },
     required: ["realm", "userId", "groupId"],
   },
+  "list-clients": {
+    type: "object",
+    properties: {
+      realm: { type: "string" },
+    },
+  },
 };
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
@@ -152,6 +163,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         name: "add-user-to-group",
         description: "Add a user to a group",
         inputSchema: inputSchema["add-user-to-group"],
+      },
+      {
+        name: "list-clients",
+        description: "List clients in a specific realm",
+        inputSchema: inputSchema["list-clients"],
       },
     ],
   };
@@ -299,6 +315,24 @@ server.setRequestHandler(
               {
                 type: "text",
                 text: `User ${userId} added to group ${groupId} in realm ${realm}`,
+              },
+            ],
+          };
+        }
+
+        case "list-clients": {
+          const { realm } = ListClientsSchema.parse(args);
+          kcAdminClient.setConfig({ realmName: realm });
+
+          const clients: ClientRepresentation[] =
+            await kcAdminClient.clients.find();
+          return {
+            content: [
+              {
+                type: "text",
+                text: `Clients in realm ${realm}:\n${clients
+                  .map((c) => `- ${c.clientId} (${c.id})`)
+                  .join("\n")}`,
               },
             ],
           };
