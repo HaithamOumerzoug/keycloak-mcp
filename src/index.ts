@@ -66,38 +66,92 @@ async function authenticate() {
   });
 }
 
+// input schema for the tools
+const inputSchema = {
+  "create-user": {
+    type: "object",
+    properties: {
+      realm: { type: "string" },
+      username: { type: "string" },
+      email: { type: "string", format: "email" },
+      firstName: { type: "string" },
+      lastName: { type: "string" },
+    },
+    required: ["realm", "username", "email", "firstName", "lastName"],
+  },
+  "delete-user": {
+    type: "object",
+    properties: {
+      realm: { type: "string" },
+      userId: { type: "string" },
+    },
+    required: ["realm", "userId"],
+  },
+  "list-realms": {
+    type: "object",
+    properties: {},
+    required: [],
+  },
+  "list-users": {
+    type: "object",
+    properties: {
+      realm: { type: "string" },
+    },
+    required: ["realm"],
+  },
+  "assign-client-role-to-user": {
+    type: "object",
+    properties: {
+      realm: { type: "string" },
+      userId: { type: "string" },
+      clientId: { type: "string" },
+      roleName: { type: "string" },
+    },
+    required: ["realm", "userId", "clientId", "roleName"],
+  },
+  "add-user-to-group": {
+    type: "object",
+    properties: {
+      realm: { type: "string" },
+      userId: { type: "string" },
+      groupId: { type: "string" },
+    },
+    required: ["realm", "userId", "groupId"],
+  },
+};
+
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
     tools: [
       {
         name: "create-user",
         description: "Create a new user in a specific realm",
-        inputSchema: CreateUserSchema,
+        inputSchema: inputSchema["create-user"],
       },
       {
         name: "delete-user",
         description: "Delete a user from a specific realm",
-        inputSchema: DeleteUserSchema,
+        inputSchema: inputSchema["delete-user"],
       },
       {
         name: "list-realms",
         description: "List all available realms",
-        inputSchema: z.object({}),
+        inputSchema: inputSchema["list-realms"],
       },
       {
         name: "list-users",
         description: "List users in a specific realm",
-        inputSchema: ListUsersSchema,
+        inputSchema: inputSchema["list-users"],
       },
       {
         name: "assign-client-role-to-user",
         description: "Assign a client role to a user",
-        inputSchema: AssignClientRoleSchema,
+        inputSchema: inputSchema["assign-client-role-to-user"],
       },
       {
         name: "add-user-to-group",
         description: "Add a user to a group",
-        inputSchema: AddUserToGroupSchema,
+        inputSchema: inputSchema["add-user-to-group"],
       },
     ],
   };
@@ -275,7 +329,7 @@ server.setRequestHandler(
 const transport = new StdioServerTransport();
 try {
   await server.connect(transport);
-  console.log(`Keycloak MCP running`);
+  console.log(`Keycloak MCP Server running`);
 } catch (error) {
   console.error("Failed to connect server:", error);
 }
