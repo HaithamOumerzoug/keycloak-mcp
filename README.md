@@ -1,5 +1,7 @@
 # Keycloak MCP
 
+[![smithery badge](https://smithery.ai/badge/@HaithamOumerzoug/keycloak-mcp)](https://smithery.ai/server/@HaithamOumerzoug/keycloak-mcp)
+
 A Model Context Protocol (MCP) server implementation for Keycloak, providing a standardized interface for managing Keycloak users and realms.
 
 ## Description
