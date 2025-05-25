@@ -1,0 +1,36 @@
+{
+  "name": "keycloak-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Keycloak",
+  "bin": {
+    "keycloak-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc && shx chmod +x dist/*.js",
+    "prepare": "npm run build",
+    "watch": "tsc --watch"
+  },
+  "keywords": [
+    "keycloak",
+    "mcp",
+    "model-context-protocol",
+    "keycloak-admin-client",
+    "keycloak-mcp"
+  ],
+  "license": "MIT",
+  "author": "OUMERZOUG Haitham",
+  "type": "module",
+  "dependencies": {
+    "@keycloak/keycloak-admin-client": "^26.2.4",
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.25.28"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "shx": "^0.4.0",
+    "typescript": "^5.8.3"
+  }
+}
