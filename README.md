@@ -8,6 +8,10 @@ A Model Context Protocol (MCP) server implementation for Keycloak, providing a s
 
 This project implements an MCP server that integrates with Keycloak, allowing you to manage Keycloak users and realms through a standardized protocol. It uses the official Keycloak Admin Client to interact with Keycloak's API.
 
+## Feature Demo
+
+https://github.com/user-attachments/assets/4b02a049-b8d6-4cc5-a7b4-564a0e758dd8
+
 ## Available Tools
 
 ### create-user
