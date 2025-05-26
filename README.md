@@ -88,11 +88,10 @@ To install keycloak-mcp for Claude Desktop automatically via [Smithery](https://
 npx -y @smithery/cli install @HaithamOumerzoug/keycloak-mcp --client claude
 ```
 
-The server is available as an NPM package:
 
 ### Installing via NPM
 
-The server is available as an NPM package (Will be available within 24h):
+The server is available as an NPM package:
 ```bash
 # Direct usage with npx
 npx -y keycloak-mcp
@@ -103,7 +102,7 @@ npm install -g keycloak-mcp
 
 ## Configuration
 
-### Using NPM Package (Will be available within 24h)
+### Using NPM Package
 Configure the server in your Cursor IDE, Cline or Claude Desktop MCP configuration file:
 
 ```json
