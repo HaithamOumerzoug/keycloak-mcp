@@ -1,17 +1,19 @@
 {
   "name": "keycloak-mcp",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "description": "MCP server for Keycloak",
   "bin": {
-    "keycloak-mcp": "./dist/index.js"
+    "keycloak-mcp": "./dist/server.js"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc && shx chmod +x dist/*.js",
+    "build": "rimraf dist && tsc -p tsconfig.build.json && shx chmod +x dist/*.js",
     "prepare": "npm run build",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "start": "node dist/server.js",
+    "dev": "node --env-file .env --watch src/server.ts"
   },
   "keywords": [
     "keycloak",
@@ -19,7 +21,8 @@
     "model-context-protocol",
     "keycloak-admin-client",
     "keycloak-mcp",
-    "ai-agent"
+    "ai-agent",
+    "mcpo"
   ],
   "license": "MIT",
   "author": "OUMERZOUG Haitham",
@@ -36,7 +39,12 @@
   },
   "devDependencies": {
     "@types/node": "^22.15.21",
+    "rimraf": "^6.0.1",
     "shx": "^0.4.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=22.19.0"
   }
 }
