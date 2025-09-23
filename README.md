@@ -15,9 +15,11 @@ https://github.com/user-attachments/assets/4b02a049-b8d6-4cc5-a7b4-564a0e758dd8
 ## Available Tools
 
 ### create-user
+
 Creates a new user in a specified realm.
 
 **Inputs**:
+
 - `realm`: The realm name
 - `username`: Username for the new user
 - `email`: Email address for the user
@@ -25,53 +27,68 @@ Creates a new user in a specified realm.
 - `lastName`: User's last name
 
 ### delete-user
+
 Deletes a user from a specified realm.
 
 **Inputs**:
+
 - `realm`: The realm name
 - `userId`: The ID of the user to delete
 
 ### list-realms
+
 Lists all available realms.
 
 ### list-users
+
 Lists all users in a specified realm.
 
 **Inputs**:
+
 - `realm`: The realm name
 
 ### list-clients
+
 Lists all clients in a specified realm.
 
 **Inputs**:
+
 - `realm`: The realm name
 
 ### list-groups
+
 Lists all groups in a specified realm.
 
 **Inputs**:
+
 - `realm`: The realm name
 
 ### list-client-roles
+
 Lists all roles for a specific client in a realm.
 
 **Inputs**:
+
 - `realm`: The realm name
 - `clientUniqueId`: The unique ID of the client
 
 ### assign-client-role-to-user
+
 Assigns a client role to a specific user.
 
 **Inputs**:
+
 - `realm`: The realm name
 - `userId`: The ID of the user
 - `clientUniqueId`: The unique ID of the client
 - `roleName`: The name of the role to assign
 
 ### add-user-to-group
+
 Adds a user to a specific group.
 
 **Inputs**:
+
 - `realm`: The realm name
 - `userId`: The ID of the user
 - `groupId`: The ID of the group
@@ -92,10 +109,10 @@ To install keycloak-mcp for Claude Desktop automatically via [Smithery](https://
 npx -y @smithery/cli install @HaithamOumerzoug/keycloak-mcp --client claude
 ```
 
-
 ### Installing via NPM
 
 The server is available as an NPM package:
+
 ```bash
 # Direct usage with npx
 npx -y keycloak-mcp
@@ -107,6 +124,7 @@ npm install -g keycloak-mcp
 ## Configuration
 
 ### Using NPM Package
+
 Configure the server in your Cursor IDE, Cline or Claude Desktop MCP configuration file:
 
 ```json
@@ -126,12 +144,13 @@ Configure the server in your Cursor IDE, Cline or Claude Desktop MCP configurati
 ```
 
 ### For Local Development
+
 ```json
 {
   "mcpServers": {
     "keycloak": {
       "command": "node",
-      "args": ["path/to/dist/index.js"],
+      "args": ["path/to/dist/server.js"],
       "env": {
         "KEYCLOAK_URL": "http://localhost:8080",
         "KEYCLOAK_ADMIN": "admin",
@@ -169,11 +188,13 @@ To set up the development environment:
 ## Dependencies
 
 ### Main Dependencies
+
 - `@keycloak/keycloak-admin-client` - Official Keycloak Admin Client
 - `@modelcontextprotocol/sdk` - MCP SDK for standardized protocol implementation
 - `zod` - TypeScript-first schema validation
 
 ### Dev Dependencies
+
 - `typescript` - For TypeScript support
 - `@types/node` - TypeScript definitions for Node.js
 - `shx` - Cross-platform shell commands
