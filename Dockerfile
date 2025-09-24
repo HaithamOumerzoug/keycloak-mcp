@@ -9,4 +9,4 @@ COPY src ./src
 RUN npm ci --ignore-scripts && npm run build
 
 # Default command
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/server.js"]

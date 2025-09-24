@@ -183,7 +183,8 @@ To set up the development environment:
 
 - `npm run build` - Builds the project and makes the CLI executable
 - `npm run prepare` - Runs the build script (used during package installation)
-- `npm run watch` - Watches for changes and rebuilds automatically
+- `npm run dev` - Watches for changes and rebuilds automatically
+- `npm start` - Starts the server (for production)
 
 ## Dependencies
 
@@ -198,6 +199,8 @@ To set up the development environment:
 - `typescript` - For TypeScript support
 - `@types/node` - TypeScript definitions for Node.js
 - `shx` - Cross-platform shell commands
+- `ts-node` - TypeScript execution and REPL for Node.js
+- `rimraf` - A cross-platform tool to remove directories
 
 ## License
 
