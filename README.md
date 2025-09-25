@@ -1,5 +1,9 @@
 # Keycloak MCP
 
+[![npm version](https://img.shields.io/npm/v/keycloak-mcp.svg)](https://img.shields.io/npm/v/keycloak-mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Downloads](https://badgen.net/npm/dt/keycloak-mcp)](https://www.npmjs.com/package/keycloak-mcp)
+[![Node version](https://badgen.net/npm/node/keycloak-mcp)](https://www.npmjs.com/package/keycloak-mcp)
 [![smithery badge](https://smithery.ai/badge/@HaithamOumerzoug/keycloak-mcp)](https://smithery.ai/server/@HaithamOumerzoug/keycloak-mcp)
 
 A Model Context Protocol (MCP) server implementation for Keycloak, providing a standardized interface for managing Keycloak users and realms.
