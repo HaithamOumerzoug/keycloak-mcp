@@ -5,18 +5,21 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
+import pkg from '../package.json' with { type: 'json' };
 import KeycloakConfig from "./config/keycloak.ts";
 import { InputSchema } from "./schemas/index.ts";
 import KeycloakService from "./services/keycloak.ts";
+import { Logger } from "./utils/logger.ts";
 
 // Initialize Keycloak configuration and service using dependency injection
 const keycloakConfig = KeycloakConfig.getInstance();
 const keycloakService = new KeycloakService(keycloakConfig);
+const logger = new Logger("Server");
 // Create server instance
 const server = new Server(
   {
     name: "keycloak-admin",
-    version: "1.2.0",
+    version: pkg.version,
   },
   {
     capabilities: {
@@ -178,10 +181,11 @@ const transport = new StdioServerTransport();
 
 async function startServer() {
   try {
+    logger.info(`Starting Keycloak MCP Server...`);
     await server.connect(transport);
-    console.log(`Keycloak MCP Server running`);
+    logger.info(`Keycloak Server successfully started`);
   } catch (error) {
-    console.error("Failed to connect server:", error);
+    logger.error(`Failed to connect server: , ${error}`);
   }
 }
 

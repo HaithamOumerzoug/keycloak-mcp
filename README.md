@@ -197,6 +197,7 @@ To set up the development environment:
 - `@keycloak/keycloak-admin-client` - Official Keycloak Admin Client
 - `@modelcontextprotocol/sdk` - MCP SDK for standardized protocol implementation
 - `zod` - TypeScript-first schema validation
+- `chalk` - Terminal string styling
 
 ### Dev Dependencies
 
