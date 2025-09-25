@@ -1,6 +1,6 @@
 {
   "name": "keycloak-mcp",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "MCP server for Keycloak",
   "bin": {
     "keycloak-mcp": "./dist/server.js"
@@ -24,7 +24,8 @@
     "ai-agent",
     "mcpo",
     "ts-mcp-server",
-    "mcp-server"
+    "mcp-server",
+    "keycloak mcp"
   ],
   "license": "MIT",
   "author": "OUMERZOUG Haitham",
@@ -37,6 +38,7 @@
   "dependencies": {
     "@keycloak/keycloak-admin-client": "^26.2.4",
     "@modelcontextprotocol/sdk": "^1.12.0",
+    "chalk": "^5.6.2",
     "zod": "^3.25.28"
   },
   "devDependencies": {
