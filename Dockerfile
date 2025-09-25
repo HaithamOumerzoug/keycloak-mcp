@@ -4,7 +4,7 @@ FROM node:lts-alpine
 WORKDIR /usr/src/app
 
 # Install dependencies and build
-COPY package.json package-lock.json tsconfig.json ./
+COPY package.json package-lock.json tsconfig.json tsconfig.build.json ./
 COPY src ./src
 RUN npm ci --ignore-scripts && npm run build
 
