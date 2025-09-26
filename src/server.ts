@@ -14,7 +14,7 @@ import KeycloakService from "./services/keycloak.ts";
 import { Logger } from "./utils/logger.ts";
 
 // Initialize Keycloak configuration and service using dependency injection
-const keycloakConfig = KeycloakConfig.getInstance();
+const keycloakConfig = await KeycloakConfig.getInstance();
 const keycloakService = new KeycloakService(keycloakConfig);
 const logger = new Logger("Server");
 // Create server instance
@@ -29,8 +29,6 @@ const server = new Server(
     },
   }
 );
-
-// input schema for the tools
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {

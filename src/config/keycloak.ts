@@ -1,12 +1,8 @@
 import KcAdminClient from "@keycloak/keycloak-admin-client";
 import { ServerError } from "@modelcontextprotocol/sdk/server/auth/errors.js";
 import { KeycloakAdminCredentialSchema } from "../schemas/index.ts";
-
-interface KeycloakAdminCredentials {
-  adminUsername?: string;
-  adminPassword?: string;
-  baseUrl?: string;
-}
+import type { KeycloakAdminCredentials } from "../types/keycloak-admin-credentials.ts";
+import { getKeycloakAdminCredentials } from "../utils/keycloak-args.ts";
 
 class KeycloakConfig {
   private static instance: KeycloakConfig;
@@ -21,13 +17,16 @@ class KeycloakConfig {
     });
   }
 
-  public static getInstance(): KeycloakConfig {
+  public static async getInstance(): Promise<KeycloakConfig> {
     if (!KeycloakConfig.instance) {
       try {
+        // get command line arguments
+        const config = await getKeycloakAdminCredentials();
         const adminCredentials: KeycloakAdminCredentials = {
-          adminUsername: process.env.KEYCLOAK_ADMIN,
-          adminPassword: process.env.KEYCLOAK_ADMIN_PASSWORD,
-          baseUrl: process.env.KEYCLOAK_URL,
+          adminUsername: config.adminUsername || process.env.KEYCLOAK_ADMIN,
+          adminPassword:
+            config.adminPassword || process.env.KEYCLOAK_ADMIN_PASSWORD,
+          baseUrl: config.baseUrl || process.env.KEYCLOAK_URL,
         };
         KeycloakConfig.instance = new KeycloakConfig(
           KeycloakAdminCredentialSchema.parse(adminCredentials)
