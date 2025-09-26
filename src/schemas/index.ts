@@ -117,3 +117,31 @@ export const InputSchema = {
     required: ["realm", "clientUniqueId"],
   },
 };
+
+export const KeycloakAdminCredentialSchema = z.object({
+  adminUsername: z
+    .string()
+    .trim()
+    .min(1, "Admin username cannot be empty")
+    .describe("Keycloak admin username"),
+
+  adminPassword: z
+    .string()
+    .trim()
+    .min(1, "Admin password cannot be empty")
+    .describe("Keycloak admin password"),
+  baseUrl: z
+    .string()
+    .trim()
+    .min(1, "Keycloak URL cannot be empty")
+    .refine((url) => {
+      try {
+        new URL(url);
+        return true;
+      } catch {
+        return url.startsWith("http://") || url.startsWith("https://");
+      }
+    }, "Keycloak URL must be a valid URL starting with http:// or https://")
+    .transform((url) => url.replace(/\/+$/, ""))
+    .describe("Keycloak server URL"),
+});
