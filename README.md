@@ -1,4 +1,4 @@
-# Keycloak MCP
+# Keycloak MCP Server
 
 [![npm version](https://img.shields.io/npm/v/keycloak-mcp.svg)](https://img.shields.io/npm/v/keycloak-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -110,19 +110,30 @@ Adds a user to a specific group.
 To install keycloak-mcp for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@HaithamOumerzoug/keycloak-mcp):
 
 ```bash
-npx -y @smithery/cli install @HaithamOumerzoug/keycloak-mcp --client claude
+$ npx -y @smithery/cli install @HaithamOumerzoug/keycloak-mcp --client claude
 ```
 
 ### Installing via NPM
+
+#### Configure environment:
+
+- You can set configuration options using command-line arguments or environment variables:
+  - `--keycloak-url <Keycloak Instance URL>`
+  - `--keycloak-admin <Admin Username>`
+  - `--keycloak-admin-password <Admin Password>`
+- These arguments override environment variables if both are set.
+
+#### Start the server:
 
 The server is available as an NPM package:
 
 ```bash
 # Direct usage with npx
-npx -y keycloak-mcp
+$ npx -y keycloak-mcp --keycloak-url <Keycloak Instance URL> --keycloak-admin <Admin Username> --keycloak-admin-password <Admin Password>
 
 # Or global installation
-npm install -g keycloak-mcp
+$ npm install -g keycloak-mcp@latest
+$ keycloak-mcp --keycloak-url <Keycloak Instance URL> --keycloak-admin <Admin Username> --keycloak-admin-password <Admin Password>
 ```
 
 ## Configuration
@@ -174,13 +185,14 @@ To set up the development environment:
    ```bash
    npm install
    ```
-3. Build the project:
+3. Set env vars
    ```bash
-   npm run build
+   cp .env.template .env
+   # Edit the .env file and set all variables with the appropriate values
    ```
 4. Start the project:
    ```bash
-   npm run watch
+   npm run dev
    ```
 
 ### Available Scripts
@@ -198,6 +210,7 @@ To set up the development environment:
 - `@modelcontextprotocol/sdk` - MCP SDK for standardized protocol implementation
 - `zod` - TypeScript-first schema validation
 - `chalk` - Terminal string styling
+- `yargs` - Parsing command-line arguments
 
 ### Dev Dependencies
 
@@ -206,6 +219,7 @@ To set up the development environment:
 - `shx` - Cross-platform shell commands
 - `ts-node` - TypeScript execution and REPL for Node.js
 - `rimraf` - A cross-platform tool to remove directories
+- `@types/yargs` - TypeScript definitions for yargs
 
 ## License
 
