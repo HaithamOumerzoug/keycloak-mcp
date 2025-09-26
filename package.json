@@ -5,6 +5,7 @@
   "bin": {
     "keycloak-mcp": "./dist/server.js"
   },
+  "main": "./dist/server.js",
   "files": [
     "dist"
   ],
