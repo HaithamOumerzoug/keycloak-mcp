@@ -8,6 +8,10 @@
 
 A Model Context Protocol (MCP) server implementation for Keycloak, providing a standardized interface for managing Keycloak users and realms.
 
+<a href="https://glama.ai/mcp/servers/@HaithamOumerzoug/keycloak-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@HaithamOumerzoug/keycloak-mcp/badge" alt="Keycloak Server MCP server" />
+</a>
+
 ## Description
 
 This project implements an MCP server that integrates with Keycloak, allowing you to manage Keycloak users and realms through a standardized protocol. It uses the official Keycloak Admin Client to interact with Keycloak's API.
