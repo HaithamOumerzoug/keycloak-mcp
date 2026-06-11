@@ -43,6 +43,32 @@ export const ListClientRolesSchema = z.object({
   clientUniqueId: z.string(),
 });
 
+export const CreateClientRoleSchema = z.object({
+  realm: z.string(),
+  clientUniqueId: z.string(),
+  roleName: z.string(),
+  description: z.string().optional(),
+});
+
+export const ListProtocolMappersSchema = z.object({
+  realm: z.string(),
+  clientUniqueId: z.string(),
+});
+
+export const CreateProtocolMapperSchema = z.object({
+  realm: z.string(),
+  clientUniqueId: z.string(),
+  name: z.string(),
+  protocolMapper: z.string(),
+  protocol: z.string().default("openid-connect"),
+  config: z.record(z.string()).default({}),
+});
+
+export const ListUserRoleMappingsSchema = z.object({
+  realm: z.string(),
+  userId: z.string(),
+});
+
 export const InputSchema = {
   "create-user": {
     type: "object",
@@ -115,6 +141,53 @@ export const InputSchema = {
       clientUniqueId: { type: "string" },
     },
     required: ["realm", "clientUniqueId"],
+  },
+  "create-client-role": {
+    type: "object",
+    properties: {
+      realm: { type: "string" },
+      clientUniqueId: { type: "string" },
+      roleName: { type: "string" },
+      description: { type: "string" },
+    },
+    required: ["realm", "clientUniqueId", "roleName"],
+  },
+  "list-protocol-mappers": {
+    type: "object",
+    properties: {
+      realm: { type: "string" },
+      clientUniqueId: { type: "string" },
+    },
+    required: ["realm", "clientUniqueId"],
+  },
+  "create-protocol-mapper": {
+    type: "object",
+    properties: {
+      realm: { type: "string" },
+      clientUniqueId: { type: "string" },
+      name: { type: "string" },
+      protocolMapper: {
+        type: "string",
+        description:
+          "Mapper type id, e.g. oidc-usermodel-client-role-mapper or oidc-group-membership-mapper",
+      },
+      protocol: { type: "string", default: "openid-connect" },
+      config: {
+        type: "object",
+        additionalProperties: { type: "string" },
+        description:
+          'Mapper config, e.g. {"claim.name": "groups", "id.token.claim": "true", "full.path": "false"}',
+      },
+    },
+    required: ["realm", "clientUniqueId", "name", "protocolMapper"],
+  },
+  "list-user-role-mappings": {
+    type: "object",
+    properties: {
+      realm: { type: "string" },
+      userId: { type: "string" },
+    },
+    required: ["realm", "userId"],
   },
 };
 
