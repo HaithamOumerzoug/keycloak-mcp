@@ -78,6 +78,29 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         description: "List roles in a specific client",
         inputSchema: InputSchema["list-client-roles"],
       },
+      {
+        name: "create-client-role",
+        description: "Create a role in a specific client",
+        inputSchema: InputSchema["create-client-role"],
+      },
+      {
+        name: "list-protocol-mappers",
+        description:
+          "List protocol mappers of a client (dedicated scope), including their config",
+        inputSchema: InputSchema["list-protocol-mappers"],
+      },
+      {
+        name: "create-protocol-mapper",
+        description:
+          "Create a protocol mapper on a client (e.g. group membership or client role claim mappers)",
+        inputSchema: InputSchema["create-protocol-mapper"],
+      },
+      {
+        name: "list-user-role-mappings",
+        description:
+          "List all realm and client role mappings assigned to a user",
+        inputSchema: InputSchema["list-user-role-mappings"],
+      },
     ],
   };
 });
@@ -152,6 +175,42 @@ server.setRequestHandler(
               {
                 type: "text",
                 text: await keycloakService.listClientRoles(args),
+              },
+            ],
+          };
+        case "create-client-role":
+          return {
+            content: [
+              {
+                type: "text",
+                text: await keycloakService.createClientRole(args),
+              },
+            ],
+          };
+        case "list-protocol-mappers":
+          return {
+            content: [
+              {
+                type: "text",
+                text: await keycloakService.listProtocolMappers(args),
+              },
+            ],
+          };
+        case "create-protocol-mapper":
+          return {
+            content: [
+              {
+                type: "text",
+                text: await keycloakService.createProtocolMapper(args),
+              },
+            ],
+          };
+        case "list-user-role-mappings":
+          return {
+            content: [
+              {
+                type: "text",
+                text: await keycloakService.listUserRoleMappings(args),
               },
             ],
           };

@@ -80,6 +80,48 @@ Lists all roles for a specific client in a realm.
 - `realm`: The realm name
 - `clientUniqueId`: The unique ID of the client
 
+### create-client-role
+
+Creates a role in a specific client.
+
+**Inputs**:
+
+- `realm`: The realm name
+- `clientUniqueId`: The unique ID of the client
+- `roleName`: The name of the role to create
+- `description` (optional): Role description
+
+### list-protocol-mappers
+
+Lists the protocol mappers of a client (its dedicated scope), including each mapper's config — useful to verify claim mappers (e.g. group membership / client role claims).
+
+**Inputs**:
+
+- `realm`: The realm name
+- `clientUniqueId`: The unique ID of the client
+
+### create-protocol-mapper
+
+Creates a protocol mapper on a client, e.g. a Group Membership mapper or a User Client Role mapper.
+
+**Inputs**:
+
+- `realm`: The realm name
+- `clientUniqueId`: The unique ID of the client
+- `name`: Mapper display name
+- `protocolMapper`: Mapper type id (e.g. `oidc-group-membership-mapper`, `oidc-usermodel-client-role-mapper`)
+- `protocol` (optional, default `openid-connect`)
+- `config` (optional): Mapper config map, e.g. `{"claim.name": "groups", "id.token.claim": "true", "full.path": "false"}`
+
+### list-user-role-mappings
+
+Lists all realm and client role mappings assigned to a user — answers "which roles does this user actually have?".
+
+**Inputs**:
+
+- `realm`: The realm name
+- `userId`: The ID of the user
+
 ### assign-client-role-to-user
 
 Assigns a client role to a specific user.

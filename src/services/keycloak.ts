@@ -8,11 +8,15 @@ import KeycloakConfig from "../config/keycloak.ts";
 import {
   AddUserToGroupSchema,
   AssignClientRoleSchema,
+  CreateClientRoleSchema,
+  CreateProtocolMapperSchema,
   CreateUserSchema,
   DeleteUserSchema,
   ListClientRolesSchema,
   ListClientsSchema,
   ListGroupsSchema,
+  ListProtocolMappersSchema,
+  ListUserRoleMappingsSchema,
   ListUsersSchema,
 } from "../schemas/index.ts";
 
@@ -125,6 +129,67 @@ class KeycloakService {
     return `Roles in client ${clientUniqueId} in realm ${realm}:\n${roles
       .map((r) => `- ${r.name}`)
       .join("\n")}`;
+  }
+
+  public async createClientRole(args: unknown): Promise<string> {
+    const { realm, clientUniqueId, roleName, description } =
+      CreateClientRoleSchema.parse(args);
+    await this.kcAdminClient.clients.createRole({
+      id: clientUniqueId,
+      realm,
+      name: roleName,
+      description,
+    });
+    return `Role '${roleName}' created in client ${clientUniqueId} in realm ${realm}`;
+  }
+
+  public async listProtocolMappers(args: unknown): Promise<string> {
+    const { realm, clientUniqueId } = ListProtocolMappersSchema.parse(args);
+    const mappers = await this.kcAdminClient.clients.listProtocolMappers({
+      id: clientUniqueId,
+      realm,
+    });
+    if (!mappers.length) {
+      return `No protocol mappers in client ${clientUniqueId} in realm ${realm}`;
+    }
+    return `Protocol mappers in client ${clientUniqueId} in realm ${realm}:\n${mappers
+      .map(
+        (m) =>
+          `- ${m.name} [${m.protocolMapper}] config=${JSON.stringify(
+            m.config ?? {}
+          )}`
+      )
+      .join("\n")}`;
+  }
+
+  public async createProtocolMapper(args: unknown): Promise<string> {
+    const { realm, clientUniqueId, name, protocolMapper, protocol, config } =
+      CreateProtocolMapperSchema.parse(args);
+    await this.kcAdminClient.clients.addProtocolMapper(
+      { id: clientUniqueId, realm },
+      { name, protocol, protocolMapper, config }
+    );
+    return `Protocol mapper '${name}' [${protocolMapper}] created in client ${clientUniqueId} in realm ${realm}`;
+  }
+
+  public async listUserRoleMappings(args: unknown): Promise<string> {
+    const { realm, userId } = ListUserRoleMappingsSchema.parse(args);
+    const mappings = await this.kcAdminClient.users.listRoleMappings({
+      id: userId,
+      realm,
+    });
+    const realmRoles = (mappings.realmMappings ?? [])
+      .map((r) => `- [realm] ${r.name}`)
+      .join("\n");
+    const clientRoles = Object.entries(mappings.clientMappings ?? {})
+      .flatMap(([client, m]: [string, any]) =>
+        (m.mappings ?? []).map((r: any) => `- [client:${client}] ${r.name}`)
+      )
+      .join("\n");
+    const all = [realmRoles, clientRoles].filter(Boolean).join("\n");
+    return all
+      ? `Role mappings for user ${userId} in realm ${realm}:\n${all}`
+      : `User ${userId} has no role mappings in realm ${realm}`;
   }
 }
 
